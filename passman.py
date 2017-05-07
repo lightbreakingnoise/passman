@@ -12,7 +12,7 @@ colorama.init()
 def generate(num):
 	txt = ""
 	for i in range(num):
-		txt += "1qayxsw23edcvfr45tgbnhz67ujmki89olp0PLOIKMJUZHNBGTRFVCDEWSXYAQ"[random.randrange(62)]
+		txt += "1qayxsw23edcvfr45tgbnhz67ujmki89olp0PLOIKMJUZHNBGTRFVCDEWSXYAQ"[random.SystemRandom().randint(0, 62)]
 	
 	return txt
 
