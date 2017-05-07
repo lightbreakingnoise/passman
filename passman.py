@@ -9,10 +9,17 @@ import tarfile
 
 colorama.init()
 
-def generate(num):
+global seeds
+seeds = []
+seeds.append("1qayxsw23edcvfr45tgbnhz67ujmki89olp0PLOIKMJUZHNBGTRFVCDEWSXYAQ")
+seeds.append("1qayxsw23edcvfr45tgbnhz67ujmki89olp0PLOIKMJUZHNBGTRFVCDEWSXYAQ.,;:_-=)(][}{/&%$§!#+-*~'")
+
+def generate(num, seednum):
+	global seeds
+	
 	txt = ""
 	for i in range(num):
-		txt += "1qayxsw23edcvfr45tgbnhz67ujmki89olp0PLOIKMJUZHNBGTRFVCDEWSXYAQ"[random.SystemRandom().randint(0, 62)]
+		txt += seeds[seednum][random.SystemRandom().randint(0, len(seeds[seednum]))]
 	
 	return txt
 
@@ -36,7 +43,7 @@ while True:
 	i = input().lower().split(" ")
 	
 	if i[0] == "generate" and len(i) == 1:
-		new_pass = generate(10)
+		new_pass = generate(10, 0)
 		y = output(y, "Your Password> " + new_pass)
 	
 	elif i[0] == "generate" and len(i) == 2:
@@ -45,13 +52,23 @@ while True:
 		except:
 			x = 10
 		
-		new_pass = generate(x)
+		new_pass = generate(x, 0)
 		y = output(y, "Your Password> " + new_pass)
 	
+	elif i[0] == "hardcore" and len(i) == 2:
+		try:
+			x = int(i[1])
+		except:
+			x = 10
+		
+		new_pass = generate(x, 1)
+		y = output(y, "Your Password> " + new_pass)
+
 	elif i[0] == "add" and len(i) == 2:
 		sys.stdout.write("\033[33;1H\033[2K>>>")
 		xtra = input()
 		pass_list.append({"account": i[1], "pass": new_pass, "xtra": xtra})
+		y = output(y, "Password for " + i[1] + " is set")
 	
 	elif i[0] == "list" and len(i) == 1:
 		for e in pass_list:
@@ -90,7 +107,9 @@ while True:
 			y = output(y, "loading FAILED!")
 	
 	elif i[0] == "help":
-		y = output(y, "first, you have to ::generate:: or ::load file:: then you can ::add account:: or ::list:: and ::save file:: and ::exit::")
+		y = output(y, "first, you have to ::generate number:: or ::hardcore number:: or ::load file::")
+		y = output(y, "then you can ::add account:: or ::list::")
+		y = output(y, "finally you can ::save file:: and ::exit::")
 		
 	elif i[0] == "exit" and len(i) == 1:
 		break
